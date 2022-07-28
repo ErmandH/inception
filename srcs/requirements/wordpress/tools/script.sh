@@ -4,17 +4,17 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
 
 	sleep 5;
 
-	if ! mysqladmin -h $MYSQL_HOST -u $MYSQL_USER --password=$MYSQL_PASSWORD --wait=60 ping > /dev/null; then
+	if ! mysqladmin -h $DB_HOST -u $DB_USER --password=$DB_PASSWORD --wait=60 ping > /dev/null; then
 		printf "Database is not started\n"
 		exit 1
 	fi
 
 	cd /var/www/wordpress
 
-	wp core config	--dbhost=$MYSQL_HOST \
-					--dbname=$MYSQL_NAME \
-					--dbuser=$MYSQL_USER \
-					--dbpass=$MYSQL_PASSWORD \
+	wp core config	--dbhost=$DB_HOST \
+					--dbname=$DB_NAME \
+					--dbuser=$DB_USER \
+					--dbpass=$DB_PASSWORD \
 					--allow-root
 
 	wp core install --title=$WP_TITLE \

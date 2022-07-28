@@ -8,17 +8,17 @@ else
 	chown -R mysql:mysql /var/lib/mysql
 fi
 
-if [ ! -d "/var/lib/mysql/${MYSQL_NAME}" ]; then
-	echo "Creating database --${MYSQL_NAME}--"
+if [ ! -d "/var/lib/mysql/${DB_NAME}" ]; then
+	echo "Creating database --${DB_NAME}--"
 	rc-service mariadb start
 
 	mysql -u root -e "DROP DATABASE IF EXISTS test;"
 	mysql -u root -e "DELETE FROM mysql.user WHERE User=''";
-	mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_NAME};"
-	mysql -u root -e "CREATE USER '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
-	mysql -u root -e "GRANT ALL PRIVILEGES ON ${MYSQL_NAME}.* TO '${MYSQL_USER}'@'%';"
+	mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME};"
+	mysql -u root -e "CREATE USER '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';"
+	mysql -u root -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';"
 	mysql -u root -e "FLUSH PRIVILEGES;"
-	mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
+	mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}';"
 
 	rc-service mariadb stop
 fi
